@@ -1,0 +1,64 @@
+def fibonacci_recursive(n, step_count=0):
+    step_count += 1  # Count the step for this function call
+    
+    if n <= 0:  # Base case: Fibonacci(0) = 0
+        return 0, step_count
+    elif n == 1:  # Base case: Fibonacci(1) = 1
+        return 1, step_count
+    
+    # Recursive call for Fibonacci(n - 1) + Fibonacci(n - 2)
+    fib1, step_count = fibonacci_recursive(n - 1, step_count)
+    fib2, step_count = fibonacci_recursive(n - 2, step_count)
+    
+    return fib1 + fib2, step_count
+
+
+# Example usage
+n = 5  # Change this number to test different inputs
+result, steps = fibonacci_recursive(n)
+print(f"Recursive: Fibonacci number at position {n} is {result}.")
+print(f"Number of steps taken: {steps}")
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+def fibonacci_iterative(n):
+    step_count = 0  # Initialize step counter
+    
+    if n <= 0:  # Base case: Fibonacci(0) = 0
+        return 0, step_count
+    elif n == 1:  # Base case: Fibonacci(1) = 1
+        step_count += 1  # Increment for the check
+        return 1, step_count
+    
+    # Start with the first two Fibonacci numbers
+    a, b = 0, 1
+    step_count += 2  # Steps for initializing a and b
+    
+    for _ in range(2, n + 1):  # Loop from 2 to n
+        step_count += 1  # Increment for each iteration
+        a, b = b, a + b  # Update Fibonacci numbers
+    
+    return b, step_count
+
+
+# Example usage
+n = 5  # Change this number to test different inputs
+result, steps = fibonacci_iterative(n)
+print(f"Iterative: Fibonacci number at position {n} is {result}.")
+print(f"Number of steps taken: {steps}")
