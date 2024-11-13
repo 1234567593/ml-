@@ -1,0 +1,23 @@
+def knapsack_01(capacity, weights, values):
+    n = len(weights)  # Number of items
+
+    # Step 1: Create a DP table
+    dp = [[0] * (capacity + 1) for _ in range(n + 1)]
+
+    # Step 2: Fill the DP table
+    for i in range(1, n + 1):  # Loop through items
+        for w in range(1, capacity + 1):  # Loop through all capacities
+            if weights[i - 1] <= w:  # If the item can fit
+                dp[i][w] = max(dp[i - 1][w], values[i - 1] + dp[i - 1][w - weights[i - 1]])
+            else:  # If the item can't fit
+                dp[i][w] = dp[i - 1][w]
+
+    return dp[n][capacity]  # Maximum value for all items and given capacity
+
+# Example usage
+weights = [1, 2, 3]
+values = [10, 15, 40]
+capacity = 5
+
+max_value = knapsack_01(capacity, weights, values)
+print("Maximum value in the knapsack:", max_value)
