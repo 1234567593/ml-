@@ -1,0 +1,56 @@
+import heapq
+
+# Node class for the Huffman Tree
+class Node:
+    def __init__(self, char, freq):
+        self.char = char
+        self.freq = freq
+        self.left = None
+        self.right = None
+
+    # Comparison for priority queue (min-heap)
+    def __lt__(self, other):
+        return self.freq < other.freq
+
+# Function to build Huffman Tree and generate codes
+def huffman_encoding(char_freq):
+    # Step 1: Create a min-heap with all characters
+    heap = [Node(char, freq) for char, freq in char_freq.items()]
+    heapq.heapify(heap)
+
+    # Step 2: Build the Huffman Tree
+    while len(heap) > 1:
+        left = heapq.heappop(heap)   # Smallest node
+        right = heapq.heappop(heap) # Second smallest node
+        merged = Node(None, left.freq + right.freq)  # Merge nodes
+        merged.left = left
+        merged.right = right
+        heapq.heappush(heap, merged)  # Add merged node back to heap
+
+    # Final tree root
+    root = heap[0]
+
+    # Step 3: Generate codes using the tree
+    codes = {}
+    def generate_codes(node, current_code=""):
+        if not node:
+            return
+        if node.char:  # Leaf node
+            codes[node.char] = current_code
+        generate_codes(node.left, current_code + "0")
+        generate_codes(node.right, current_code + "1")
+
+    generate_codes(root)
+    return codes
+
+# Example usage
+char_freq = {
+    'A': 5,
+    'B': 9,
+    'C': 12,
+    'D': 13,
+    'E': 16,
+    'F': 45
+}
+codes = huffman_encoding(char_freq)
+print("Huffman Codes:", codes)
