@@ -1,0 +1,24 @@
+# Function to solve fractional knapsack problem
+def fractional_knapsack(capacity, items):
+    # Step 1: Calculate value-to-weight ratio and sort items
+    items = sorted(items, key=lambda x: x[1] / x[0], reverse=True)  # Sort by ratio
+
+    total_value = 0  # Total profit/value in the knapsack
+
+    # Step 2: Add items to the knapsack
+    for weight, value in items:
+        if capacity >= weight:  # If the entire item can fit
+            total_value += value
+            capacity -= weight
+        else:  # If only a fraction of the item can fit
+            total_value += value * (capacity / weight)
+            break  # Knapsack is full
+
+    return total_value
+
+# Example usage
+items = [(10, 60), (20, 100), (30, 120)]  # (weight, value)
+capacity = 50  # Knapsack capacity
+
+max_value = fractional_knapsack(capacity, items)
+print("Maximum value in the knapsack:", max_value)
